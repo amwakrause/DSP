@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Transcriber - EECS 351 Project</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        h1 { margin: 0 0 0.5rem 0; font-size: 2.5rem; color: #fff; }
+        .subtitle { color: var(--text-muted); font-size: 1.1rem; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        h2 { color: #60a5fa; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 0; }
+        .plot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .plot-card {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .plot-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        ul { padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        .btn:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Le Transcriber</h1>
+        <p class="subtitle">EECS 351 Digital Signal Processing Project | Team Progress Report</p>
+        <a href="https://github.com/amwakrause/DSP" target="_blank" class="btn">View Source Code on GitHub</a>
+    </header>
+
+    <div class="container">
+
+        <!-- OVERVIEW LANDING -->
+        <section>
+            <h2>Project Overview</h2>
+            <p>Welcome to <strong>Le Transcriber</strong>! Our project tackles a classic computer vision and digital signal processing challenge: taking raw 2D grayscale images of handwritten mathematical equations and automatically compiling them into clean, valid $\LaTeX$ code.</p>
+            <p>By leveraging OpenCV for spatial image segmentation and a custom recursive Abstract Syntax Tree (AST) compiler, our system translates structural 2D handwriting layouts into structured 1D markup.</p>
+        </section>
+
+        <!-- 1. DATA DESCRIPTION -->
+        <section>
+            <h2>1. Data Description</h2>
+            <p>Our input dataset consists of 2D grayscale image arrays (saved as <code>.png</code> files) capturing handwritten equations containing numbers, variables, operators, and fractions. Future pipeline expansions will ingest multi-page PDF documents.</p>
+            <ul>
+                <li><strong>Resolution & Format:</strong> High-contrast grayscale matrices optimized for thresholding.</li>
+                <li><strong>Signal Characteristics:</strong> Variable stroke widths, lighting variations, and background paper noise requiring digital filtering.</li>
+            </ul>
+        </section>
+
+        <!-- 2. THREE DATA PLOTS -->
+        <section>
+            <h2>2. Data & DSP Feature Plots</h2>
+            <p>The following three plots highlight key signal processing and feature extraction stages within our pipeline:</p>
+            <div class="plot-grid">
+                <div class="plot-card">
+                    <img src="plot1_threshold.png" alt="Otsu Binarization Plot">
+                    <strong>Plot 1: Otsu's Thresholding</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Isolates foreground handwriting signal from background illumination variance.</p>
+                </div>
+                <div class="plot-card">
+                    <img src="plot2_contours.png" alt="Contour Bounding Boxes">
+                    <strong>Plot 2: Contour Segmentation</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Bounding box extractions mapping individual character locations.</p>
+                </div>
+                <div class="plot-card">
+                    <img src="plot3_features.png" alt="Width vs Height Scatter">
+                    <strong>Plot 3: Spatial Feature Scatter</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Width vs. height metrics separating fractions from standard symbols.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PROGRESS & CHALLENGES -->
+        <section>
+            <h2>3. Progress Report & Challenges</h2>
+            <p><strong>What we've done so far:</strong> We built the complete preprocessing pipeline (Otsu binarization, morphological closing) and developed the core AST compiler mapping spatial relationships into nested $\LaTeX$ strings.</p>
+            <p><strong>Challenges & Solutions:</strong></p>
+            <ul>
+                <li><em>Multi-part characters:</em> Symbols like '=' or 'i' break into separate contours. <em>Solution:</em> Implemented vertical coordinate clustering to merge disconnected sub-strokes.</li>
+                <li><em>Complex fractions:</em> 2D vertical hierarchy handling. <em>Solution:</em> Expanding our AST recursive visitor pattern to properly isolate numerator and denominator sub-trees.</li>
+            </ul>
+        </section>
+
+        <!-- 4. THREE-WEEK PLAN -->
+        <section>
+            <h2>4. Three-Week Action Plan</h2>
+            <ul>
+                <li><strong>Week 1:</strong> Refine fraction tree parsing and implement $y$-axis line clustering for multi-line equations.</li>
+                <li><strong>Week 2:</strong> Integrate a lightweight classifier to map bounding box features to concrete math tokens.</li>
+                <li><strong>Week 3:</strong> Add PDF ingestion support via <code>pypdfium2</code> and conduct end-to-end evaluation on test worksheets.</li>
+            </ul>
+        </section>
+
+        <!-- 5. LESSON LEARNED -->
+        <section>
+            <h2>5. Technical Lesson Learned</h2>
+            <p><strong>Otsu’s Thresholding & Morphological Operations:</strong> Working with handwritten data taught us that static brightness thresholds fail instantly under uneven phone-camera lighting. Using Otsu's method treats pixel intensity histograms as a bimodal signal distribution, dynamically finding the optimal threshold. Pairing this with morphological closing acts as a spatial low-pass filter, patching microscopic gaps in pen strokes without distorting character boundaries.</p>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>EECS 351 Digital Signal Processing Project Website</p>
+    </footer>
+
+</body>
+</html>
